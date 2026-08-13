@@ -65,7 +65,10 @@ export class ConversationService {
     if (request.modelId !== undefined) {
       conversation.modelId = request.modelId;
     }
-
+    if (request.isTemporary !== undefined) {
+      conversation.isTemporary =
+        request.isTemporary;
+    }
     return conversationRepository.save(conversation);
   }
 
