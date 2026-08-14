@@ -7,6 +7,7 @@ import {
   deleteConversation,
   getConversation,
   listConversations,
+  searchConversations,
   updateConversation,
 } from "./conversation.controller.js";
 
@@ -17,11 +18,12 @@ router.use(authMiddleware);
 router.post("/", createConversation);
 
 router.get("/", listConversations);
-
+router.get("/search",authMiddleware, searchConversations);
 router.get("/:id", getConversation);
 
 router.patch("/:id", updateConversation);
 
 router.delete("/:id", deleteConversation);
+
 
 export default router;

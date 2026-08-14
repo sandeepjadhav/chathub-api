@@ -84,6 +84,30 @@ export class ConversationService {
 
     await conversationRepository.remove(conversation);
   }
+
+  async search(
+    userId: string,
+    query: string,
+  ) {
+    return conversationRepository
+      .createQueryBuilder("conversation")
+      .where(
+        "conversation.userId = :userId",
+        { userId },
+      )
+      .andWhere(
+        "conversation.title ILIKE :query",
+        {
+          query: `%${query}%`,
+        },
+      )
+      .orderBy(
+        "conversation.updatedAt",
+        "DESC",
+      )
+      .take(20)
+      .getMany();
+  }
 }
 
 export const conversationService =

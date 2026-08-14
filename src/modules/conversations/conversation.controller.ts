@@ -118,6 +118,39 @@ export async function deleteConversation(
     next(error);
   }
 }
+export async function searchConversations(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const query = String(
+      req.query.q ?? "",
+    ).trim();
+
+    if (!query) {
+      res.status(200).json({
+        success: true,
+        data: [],
+      });
+
+      return;
+    }
+
+    const conversations =
+      await conversationService.search(
+        req.user!.sub,
+        query,
+      );
+
+    res.status(200).json({
+      success: true,
+      data: conversations,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
 
 function getConversationId(req: AuthenticatedRequest): string {
   const { id } = req.params;
